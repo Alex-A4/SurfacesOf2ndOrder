@@ -108,8 +108,8 @@ public class Surface2ndOrder {
     }
     
     private void fillPoints(){
-        for (float x = -range; x <= range; x += 0.05f)
-            for (float y = -range; y <= range; y += 0.05f){
+        for (float x = -range; x <= range; x += 0.01f)
+            for (float y = -range; y <= range; y += 0.01f){
                 try{
                     float z[] = solutOfQuadEquat(x, y);
                     if (z.length == 2){
