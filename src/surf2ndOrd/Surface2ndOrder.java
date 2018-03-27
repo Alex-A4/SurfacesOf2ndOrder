@@ -18,16 +18,21 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  * @author alexa4
  */
 public class Surface2ndOrder {
-    private static float dx = -1.5f; //Смещение сцены по оси Х 
-    private static float dy = 0;  //По оси У
-    private static float dz = -6.0f; //По оси Z
-    private static float XAngle = 0f; //Поворот по оси X
-    private static float YAngle = 0f; //Поворот по оси Y
+    //Смещение сцены по осям
+    private static float dx = -1.5f, dy = 0, dz = -6.0f;
+    //Повороты по осям
+    private static float XAngle = 0f, YAngle = 0f;
+    //Коэффициенты уравнения поверхности
     private static float a, b, c, d, e, f, g, h, i, j;
+    //Коэффициенты уравнения плоскости
     private static float pA, pB, pC, pD;
-    private static ArrayList <Point> points;
+    //Списки точек графика и плоскости
+    private static ArrayList <Point> surfPoints;
+    private static ArrayList <Point> planePoints;
+    //Разрешение дисплея
     private static final int width = 960, height = 680;
-    
+    //Диапазон значений по осям
+    private static float range = 15f;
     
     Surface2ndOrder(float a, float b, float c, float d, float e, 
             float f, float g, float h, float i, float j) {
@@ -55,7 +60,8 @@ public class Surface2ndOrder {
         Display.setTitle("Surfaces of the 2nd order ");
         Display.create();
         
-        points = new ArrayList<Point>();
+        surfPoints = new ArrayList<Point>();
+        planePoints = new ArrayList<Point>();
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         //очистка экрана в какой-то цвет
@@ -89,8 +95,10 @@ public class Surface2ndOrder {
             
             drawAxis();
             
-            for (Point p: points)
-                p.drawPoint();
+            for (Point p: surfPoints)
+                p.drawPoint((byte)1);
+            for (Point p: planePoints)
+                p.drawPoint((byte)0);
             
             Display.sync(60);
             Display.update();
@@ -100,18 +108,18 @@ public class Surface2ndOrder {
     }
     
     private void fillPoints(){
-        for (float x = -20; x <= 20f; x+=0.05f)
-            for (float y = -20; y <= 20f; y+=0.05f){
+        for (float x = -range; x <= range; x+=0.05f)
+            for (float y = -range; y <= range; y+=0.05f){
                 try{
                     float z[] = solutOfQuadEquat(x, y);
                     if (z.length == 2){
-                        points.add(new Point(x, y, z[0]));
-                        points.add(new Point(x, y, z[1]));
+                        surfPoints.add(new Point(x, y, z[0]));
+                        surfPoints.add(new Point(x, y, z[1]));
                     } else if (z.length == 1)
-                        points.add(new Point(x, y, z[0]));
+                        surfPoints.add(new Point(x, y, z[0]));
 
                     float zP = solutEquat(x, y);
-                    points.add(new Point(x, y, zP));
+                    planePoints.add(new Point(x, y, zP));
                 } catch(QuadrEqualException e){
                 }
             }
@@ -224,8 +232,11 @@ public class Surface2ndOrder {
     
     class Point{
         private float x, y, z;
-        private void drawPoint(){
-            glColor3f(x/10, z/10, y/10);
+        private void drawPoint(byte k){
+            if (k == 1)
+                glColor3f(x/10, z/10, y/10);
+            else glColor3f(0f, 0f, 0f);
+            
             glBegin(GL_POINTS);
             glVertex3f(x/10, z/10, y/10);
             glEnd();

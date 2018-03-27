@@ -21,8 +21,8 @@ public class Main {
     public static void main(String args[]){
         try{
             //ax^2 + by^2 + cz^2 + d2xy + e2yz + f2xz + g2x + h2y + i2z + j = 0
-            Surface2ndOrder s2 = new Surface2ndOrder(4f, 5f, 2f, 0f, 3f, 5f, 30f, 0f, 5f, -1f);
-            s2.setPlaneCoef(1, 1, -1, 20);
+            Surface2ndOrder s2 = new Surface2ndOrder(1f, 2f, -3, 0f, 0f, 0f, 2f, 8f, 18f, -54f);
+            s2.setPlaneCoef(1, 1, -1, 10);
             s2.setDisplay();
             s2.start();
         }catch(LWJGLException e){
