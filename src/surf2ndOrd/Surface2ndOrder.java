@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+
+/**
+ * File contain class Surface2ndOrder that implements 3D rendering surface
+ * of the 2-nd order and cutting plane
  */
 package surf2ndOrd;
 
@@ -13,29 +13,43 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
+
 /**
- *
+ * Class of surface of the 2-nd order that implements 3D rendering
  * @author alexa4
  */
 public class Surface2ndOrder {
-    //Смещение сцены по осям
+    //Displacement of the scene on coordinate axis
     private static float dx = -1.5f, dy = 0, dz = -6.0f;
-    //Повороты по осям
+    //Turns on axis
     private static float XAngle = 0f, YAngle = 0f;
-    //Коэффициенты уравнения поверхности
+    //Coefficients of sufrace equation
     private static float a, b, c, d, e, f, g, h, i, j;
-    //Коэффициенты уравнения плоскости
+    //Coefficients of plane equation
     private static float pA, pB, pC, pD;
-    //Списки точек графика и плоскости
+    //Lists of points of surface and plane
     private static ArrayList <Point> surfPoints;
     private static ArrayList <Point> planePoints;
-    //Разрешение дисплея
+    //Display size
     private static final int width = 960, height = 680;
-    //Диапазон значений по осям
+    //Range of values on axis
     private static float range = 15f;
-    //Шаг приращения функции
+    //Increment of a function
     private static float incrOfFunc = 0.05f;
     
+    /**
+     * Constructor with all coefficients of surface
+     * @param a coefficient for x^2
+     * @param b coefficient for y^2
+     * @param c coefficient for z^2
+     * @param d coefficient for x*y
+     * @param e coefficient for y*z
+     * @param f coefficient for x*z 
+     * @param g coefficient for x
+     * @param h coefficient for y
+     * @param i coefficient for z
+     * @param j free coefficient
+     */
     Surface2ndOrder(float a, float b, float c, float d, float e, 
             float f, float g, float h, float i, float j) {
         this.a = a;
@@ -50,6 +64,13 @@ public class Surface2ndOrder {
         this.j = j;
     }
     
+    /**
+     * Setting coefficients of cutting plane
+     * @param a coefficient for X
+     * @param b coefficient for Y
+     * @param c coefficient for Z
+     * @param d free coefficient
+     */
     public void setPlaneCoef(float a, float b, float c, float d){
         this.pA = a;
         this.pB = b; 
@@ -57,7 +78,11 @@ public class Surface2ndOrder {
         this.pD = d;
     }
     
-    public void setDisplay()throws LWJGLException{
+    /**
+     * creating display with base parameters for 3D graphic
+     * @throws LWJGLException if display couldn't be create
+     */
+    public void createDisplay()throws LWJGLException{
         Display.setDisplayMode(new DisplayMode(width, height));
         Display.setTitle("Surfaces of the 2nd order ");
         Display.create();
@@ -82,7 +107,11 @@ public class Surface2ndOrder {
         glMatrixMode(GL_MODELVIEW);
     }
     
-    public void start() throws InterruptedException{  
+    /**
+     * Infinity cycle with drawing methods
+     * @throws InterruptedException 
+     */
+    public void start(){  
         
         fillPoints();
         
@@ -113,6 +142,9 @@ public class Surface2ndOrder {
         Display.destroy();
     }
     
+    /**
+     * Filling Lists of points after calculating them
+     */
     private void fillPoints(){
         float maxX, maxY, minX, minY;
         maxX = maxY = -range;
@@ -145,6 +177,9 @@ public class Surface2ndOrder {
         planePoints.add(new Point(maxX, minY, zP));
     }
     
+    /**
+     * Drawing coordinate axis
+     */
     private void drawAxis(){
         // x - blue, y - red, z - green
         glColor3f(0f, 1f, 0f);
@@ -167,6 +202,7 @@ public class Surface2ndOrder {
     }
     
     /**
+     * The solution of quadratic equation
      * Cz^2 + z(2Ey+2Fx+2I) + (Ax^2+By^2+2Dxy+2Gx+2Hy+J) = 0
      * @param x is abscissa
      * @param y is ordinate
@@ -202,9 +238,11 @@ public class Surface2ndOrder {
         return res;
     }
 /**
+ * The solution of equation
  * Cz + Ax + By + D = 0
- * @param x 
- * @param y
+ * z = -(Ax + By + D)/C
+ * @param x is abscissa
+ * @param y is ordinate 
  * @return coefficient z
  */
     private float solutEquat(float x, float y){
@@ -212,6 +250,9 @@ public class Surface2ndOrder {
         return z;
     }
     
+    /**
+     * Processing keyboard and mouse events
+     */
     private void processInput(){
         if (Keyboard.isKeyDown(Keyboard.KEY_LEFT))
             dx +=0.1;
@@ -250,6 +291,11 @@ public class Surface2ndOrder {
             
     }
     
+    /**
+     * x, y, z is coordinates of each point
+     * drawPoint() is method to painting colorful point
+     * callPoint() is method to return Vertex to drawing
+     */
     class Point{
         private float x, y, z;
         private void drawPoint(){

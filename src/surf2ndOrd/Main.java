@@ -1,12 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+
+/**
+ * Main file of creating project
  */
 package surf2ndOrd;
 
 import org.lwjgl.LWJGLException;
 
+/**
+ * Exception class that throws when error in quadratic equation exist
+ * @author alexa4
+ */
 class QuadrEqualException extends Exception{
     String error;
     QuadrEqualException(String s){
@@ -23,11 +26,9 @@ public class Main {
             //ax^2 + by^2 + cz^2 + d2xy + e2yz + f2xz + g2x + h2y + i2z + j = 0
             Surface2ndOrder s2 = new Surface2ndOrder(1f, 2f, -3, 0f, 0f, 0f, 2f, 8f, 18f, -54f);
             s2.setPlaneCoef(1, 1, -1, 0);
-            s2.setDisplay();
+            s2.createDisplay();
             s2.start();
         }catch(LWJGLException e){
-            e.printStackTrace();
-        }catch(InterruptedException e){
             e.printStackTrace();
         }
     }
