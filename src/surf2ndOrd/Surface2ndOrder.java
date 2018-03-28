@@ -33,6 +33,8 @@ public class Surface2ndOrder {
     private static final int width = 960, height = 680;
     //Диапазон значений по осям
     private static float range = 15f;
+    //Шаг приращения функции
+    private static float incrOfFunc = 0.05f;
     
     Surface2ndOrder(float a, float b, float c, float d, float e, 
             float f, float g, float h, float i, float j) {
@@ -96,9 +98,13 @@ public class Surface2ndOrder {
             drawAxis();
             
             for (Point p: surfPoints)
-                p.drawPoint((byte)1);
+                p.drawPoint();
+            
+            glColor3f(0f, 0f, 0f);
+            glBegin(GL_QUADS);
             for (Point p: planePoints)
-                p.drawPoint((byte)0);
+                p.callPoint();
+            glEnd();
             
             Display.sync(60);
             Display.update();
@@ -108,21 +114,35 @@ public class Surface2ndOrder {
     }
     
     private void fillPoints(){
-        for (float x = -range; x <= range; x += 0.01f)
-            for (float y = -range; y <= range; y += 0.01f){
+        float maxX, maxY, minX, minY;
+        maxX = maxY = -range;
+        minX = minY = range;
+        for (float x = -range; x <= range; x += incrOfFunc)
+            for (float y = -range; y <= range; y += incrOfFunc){
                 try{
                     float z[] = solutOfQuadEquat(x, y);
+                    if (x < minX) minX = x;
+                    else if (x > maxX) maxX = x;
+                    if (y < minY) minY = y;
+                    else if (y > maxY) maxY = y;
                     if (z.length == 2){
                         surfPoints.add(new Point(x, y, z[0]));
                         surfPoints.add(new Point(x, y, z[1]));
                     } else if (z.length == 1)
                         surfPoints.add(new Point(x, y, z[0]));
-
-                    float zP = solutEquat(x, y);
-                    planePoints.add(new Point(x, y, zP));
                 } catch(QuadrEqualException e){
                 }
             }
+        
+        //(maxX,maxY) -> (minX, maxY) -> (minX, minY) -> (maxX, minY)
+        float zP = solutEquat(maxX, maxY);
+        planePoints.add(new Point(maxX, maxY, zP));
+        zP = solutEquat(minX, maxY);
+        planePoints.add(new Point(minX, maxY, zP));
+        zP = solutEquat(minX, minY);
+        planePoints.add(new Point(minX, minY, zP));
+        zP = solutEquat(maxX, minY);
+        planePoints.add(new Point(maxX, minY, zP));
     }
     
     private void drawAxis(){
@@ -232,14 +252,14 @@ public class Surface2ndOrder {
     
     class Point{
         private float x, y, z;
-        private void drawPoint(byte k){
-            if (k == 1)
-                glColor3f(x/10, z/10, y/10);
-            else glColor3f(0f, 0f, 0f);
-            
+        private void drawPoint(){
+            glColor3f(x/10, z/10, y/10); 
             glBegin(GL_POINTS);
             glVertex3f(x/10, z/10, y/10);
             glEnd();
+        }
+        private void callPoint(){
+            glVertex3f(x/10, z/10, y/10);
         }
         Point(float x, float y, float z){
             this.x = x;
