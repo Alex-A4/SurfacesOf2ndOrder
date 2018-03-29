@@ -4,6 +4,7 @@
  */
 package surf2ndOrd;
 
+import org.lwjgl.LWJGLException;
 /**
  * Exception class that throws when error in quadratic equation exist
  * @author alexa4
@@ -23,6 +24,13 @@ public class Main {
         WelcomeFrame wf = new WelcomeFrame();
         wf.setLocation(200, 200);
         wf.setVisible(true);
+        /*CurvesOf2ndOrder cv = new CurvesOf2ndOrder(3f, 1f, 5f, 0f, 1f, 3f);
+        cv.setPlaneCoef(1, 1, 2);
+        try{
+            cv.createDisplay();
+        }catch(LWJGLException ev){
+        }
+        cv.start();*/
     }
 }
 

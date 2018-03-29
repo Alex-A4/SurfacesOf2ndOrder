@@ -522,75 +522,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
         if (jTextArea3.getText() == "")
                     jTextArea3.setText("0");
     }//GEN-LAST:event_jTextArea3FocusLost
-/*
 
-    private void jTextArea2FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea2.getText() == "")
-            jTextArea2.setText("0");
-    }
-    
-    private void jTextArea4FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea4.getText() == "")
-            jTextArea4.setText("0");
-    }
-    
-    private void jTextArea5FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea5.getText() == "")
-            jTextArea5.setText("0");
-    }                               
-    
-    
-    private void jTextArea6FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea6.getText() == "")
-            jTextArea6.setText("0");
-    }                               
-    
-    
-    private void jTextArea7FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea7.getText() == "")
-            jTextArea7.setText("0");
-    }                               
-    
-    private void jTextArea8FocusLost(java.awt.event.FocusEvent evt) {
-        if (jTextArea8.getText() == "")
-            jTextArea8.setText("0");
-    }                               
-    
-    
-    private void jTextArea9FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea9.getText() == "")
-            jTextArea9.setText("0");
-    }                 
-    
-    private void jTextArea10FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea10.getText() == "")
-            jTextArea10.setText("0");
-    }                               
-    
-    
-    private void jTextArea11FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea11.getText() == "")
-            jTextArea11.setText("0");
-    }                  
-    
-    
-    private void jTextArea12FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea12.getText() == "")
-            jTextArea12.setText("0");
-    }                  
-    
-    
-    private void jTextArea13FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea13.getText() == "")
-            jTextArea13.setText("0");
-    }                               
-    
-    
-    private void jTextArea14FocusLost(java.awt.event.FocusEvent evt) {                                     
-        if (jTextArea14.getText() == "")
-            jTextArea14.setText("0");
-    }
-    */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
