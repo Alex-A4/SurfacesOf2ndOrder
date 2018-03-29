@@ -513,7 +513,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
             System.out.println(ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-/*
     private void jTextArea1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextArea1FocusLost
         if (jTextArea1.getText() == "")
             jTextArea1.setText("0");
@@ -523,6 +522,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
         if (jTextArea3.getText() == "")
                     jTextArea3.setText("0");
     }//GEN-LAST:event_jTextArea3FocusLost
+/*
 
     private void jTextArea2FocusLost(java.awt.event.FocusEvent evt) {                                     
         if (jTextArea2.getText() == "")
