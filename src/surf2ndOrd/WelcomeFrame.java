@@ -8,8 +8,6 @@ package surf2ndOrd;
 import org.lwjgl.LWJGLException;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author alexa4
