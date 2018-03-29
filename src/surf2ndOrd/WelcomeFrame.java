@@ -8,12 +8,15 @@ package surf2ndOrd;
 import org.lwjgl.LWJGLException;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author alexa4
  */
 public class WelcomeFrame extends javax.swing.JFrame {
     private Surface2ndOrder surf;
+    private CurvesOf2ndOrder curve;
     public WelcomeFrame() {
         initComponents();
     }
@@ -509,7 +512,16 @@ public class WelcomeFrame extends javax.swing.JFrame {
             surf.setPlaneCoef(A, B, C, D);
             surf.createDisplay(p.x+dim.width, p.y+dim.height);
             surf.start();
+            
+            Thread.sleep(500);
+            
+            curve = new CurvesOf2ndOrder(a, b, d, g, h, j);
+            curve.setPlaneCoef(A, B, D);
+            curve.createDisplay();
+            curve.start();
         } catch(LWJGLException ex){
+            System.out.println(ex);
+        } catch (InterruptedException ex) {
             System.out.println(ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -523,37 +535,6 @@ public class WelcomeFrame extends javax.swing.JFrame {
                     jTextArea3.setText("0");
     }//GEN-LAST:event_jTextArea3FocusLost
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WelcomeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new WelcomeFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

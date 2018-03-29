@@ -8,7 +8,7 @@ package surf2ndOrd;
 import java.util.ArrayList;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
+//import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
@@ -20,7 +20,7 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  * @author alexa4
  */
 public class CurvesOf2ndOrder {
-    float a,b, d, g, h, j;
+    float a, b, d, g, h, j;
     //Displacement of the scene on coordinate axis
     private static float dx = 0f, dy = 0f;
     //Coefficients of plane equation
@@ -91,7 +91,7 @@ public class CurvesOf2ndOrder {
      */
     public void start(){  
         
-        fillPoints();
+        fillPointsCur();
         
         while(!Display.isCloseRequested()){
             processInput();
@@ -120,7 +120,7 @@ public class CurvesOf2ndOrder {
     /**
      * Filling Lists of points after calculating them
      */
-    private void fillPoints(){
+    private void fillPointsCur(){
         float maxX, minX;
         maxX = -range;
         minX = range;
@@ -130,19 +130,23 @@ public class CurvesOf2ndOrder {
                     if (x < minX) minX = x;
                     else if (x > maxX) maxX = x;
                     if (y.length == 2){
-                        curvePoints.add(new Point(x,y[0]));
-                        curvePoints.add(new Point(x, y[1]));
+                        CurvesOf2ndOrder.curvePoints.add(new Point(x,y[0]));
+                        CurvesOf2ndOrder.curvePoints.add(new Point(x, y[1]));
                     } else if (y.length == 1)
-                        curvePoints.add(new Point(x, y[0]));
+                        CurvesOf2ndOrder.curvePoints.add(new Point(x, y[0]));
                 } catch(QuadrEqualException e){
                 }
             }
         
         //(maxX,maxY) -> (minX, maxY) -> (minX, minY) -> (maxX, minY)
-        float yP = solutEquat2D(maxX);
-        planePoints.add(new Point(maxX, yP));
-        yP = solutEquat2D(minX);
-        planePoints.add(new Point(minX, yP));
+        try{
+            float yP = solutEquat2D(maxX);
+            CurvesOf2ndOrder.planePoints.add(new CurvesOf2ndOrder.Point(maxX, yP));
+            yP = solutEquat2D(minX);
+            CurvesOf2ndOrder.planePoints.add(new CurvesOf2ndOrder.Point(minX, yP));
+        }catch (NullPointerException ex){
+            
+        }
     }
     
     
@@ -222,13 +226,12 @@ public class CurvesOf2ndOrder {
     
     /**
  * The solution of equation in 2D
- * Ax + By + D = 0
+ * Ax + By + C = 0
  * y = -(Ax + C)/B
  * @param x is abscissa
- * @param y is ordinate 
- * @return coefficient z
+ * @return coefficient y
  */
-    private float solutEquat2D(float x){
+    private float solutEquat2D(float x) throws NullPointerException{
         float y = -(pA*x + pC) / pB;
         return y;
     }
