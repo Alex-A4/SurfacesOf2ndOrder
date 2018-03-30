@@ -36,7 +36,7 @@ public class Surface2ndOrder {
     //Range of values on axis
     private static float range = 15f;
     //Increment of a function
-    private static float incrOfFunc = 0.05f;
+    private static float incrOfFunc = 0.03f;
     
     /**
      * Constructor with all coefficients of surface
@@ -135,7 +135,7 @@ public class Surface2ndOrder {
             glBegin(GL_QUADS);
             for (Point p: planePoints)
                 p.callPoint();
-            glEnd();
+            glEnd();    
             
             Display.sync(60);
             Display.update();
