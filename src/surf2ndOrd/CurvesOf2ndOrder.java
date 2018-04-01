@@ -137,14 +137,14 @@ public class CurvesOf2ndOrder {
                 }
             }
         
-        //(maxX,maxY) -> (minX, maxY) -> (minX, minY) -> (maxX, minY)
+        //(maxX) -> (minX)
         try{
             float yP = solutEquat2D(maxX);
             CurvesOf2ndOrder.planePoints.add(new CurvesOf2ndOrder.Point(maxX, yP));
             yP = solutEquat2D(minX);
             CurvesOf2ndOrder.planePoints.add(new CurvesOf2ndOrder.Point(minX, yP));
         }catch (NullPointerException ex){
-            
+            ex.printStackTrace();
         }
     }
     
@@ -248,28 +248,6 @@ public class CurvesOf2ndOrder {
             dy -=0.1;
         if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
             dy +=0.1;
-        /*if (Mouse.isInsideWindow()){
-            float dw = Mouse.getDWheel()/100;
-            if (dw < 0){
-                dz += dw;
-                if (Mouse.getX() > width/2)
-                    dx += 0.3f;
-                else dx -= 0.3f;
-                if (Mouse.getY() > height/2)
-                    dy += 0.3f;
-                else dy -= 0.3f;
-            }
-            if (dw > 0){
-                dz += dw;
-                if (Mouse.getX() > width/2)
-                    dx -= 0.3f;
-                else dx += 0.3;
-                if (Mouse.getY() > height/2)
-                    dy -= 0.3f;
-                else dy += 0.3f;
-            }
-        }*/
-            
     }
    
     
