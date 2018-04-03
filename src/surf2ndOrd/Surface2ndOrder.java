@@ -36,7 +36,7 @@ public class Surface2ndOrder {
     //Range of values on axis
     private static float range = 15f;
     //Increment of a function
-    private static float incrOfFunc = 0.03f;
+    private static float incrOfFunc = 0.05f;
     
     /**
      * Constructor with all coefficients of surface
@@ -215,26 +215,26 @@ public class Surface2ndOrder {
         float A = this.c;
         float B = this.e*y + this.f*x + this.i;
         float C = this.a*x*x + this.b*y*y + this.d*x*y + this.g*x + this.h*y + this.j;
+        if (x == 2 && y == 2){
+            System.out.println(A+" "+B+" "+C);
+        }
+            
         if (A == 0 && B == 0)
             throw new QuadrEqualException("A and B is zero");
         if (A == 0){
             res = new float[1];
             res[0] = -C/B;
-        } else if (B == 0){
-            res = new float[2];
-            res[0] = (float)Math.sqrt(C/A);
-            res[1] = -(float)Math.sqrt(C/A);
         } else{
             float D = B*B - 4*A*C;
             if (D < 0)
                 throw new QuadrEqualException("Discriminant less then zero");
             else if (D == 0){
                 res = new float[1];
-                res[0] = (-B-(float)Math.sqrt(D))/2*A;
+                res[0] = (-B-(float)Math.sqrt(D))/(2*A);
             } else{
                 res = new float[2];
-                res[0] = (-B-(float)Math.sqrt(D))/2*A;
-                res[1] = (-B+(float)Math.sqrt(D))/2*A;
+                res[0] = (-B-(float)Math.sqrt(D))/(2*A);
+                res[1] = (-B+(float)Math.sqrt(D))/(2*A);
             }
         }
         return res;

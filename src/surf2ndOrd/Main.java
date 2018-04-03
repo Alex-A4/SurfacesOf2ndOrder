@@ -1,8 +1,10 @@
 
 /**
  * Main file of creating project
- */
+ */ 
 package surf2ndOrd;
+
+import org.lwjgl.LWJGLException;
 
 /**
  * Exception class that throws when error in quadratic equation exist
