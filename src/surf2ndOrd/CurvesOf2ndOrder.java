@@ -207,11 +207,11 @@ public class CurvesOf2ndOrder {
                 throw new QuadrEqualException("Discriminant less then zero");
             else if (D == 0){
                 res = new float[1];
-                res[0] = (-B-(float)Math.sqrt(D))/2*A;
+                res[0] = (-B-(float)Math.sqrt(D))/(2*A);
             } else{
                 res = new float[2];
-                res[0] = (-B-(float)Math.sqrt(D))/2*A;
-                res[1] = (-B+(float)Math.sqrt(D))/2*A;
+                res[0] = (-B-(float)Math.sqrt(D))/(2*A);
+                res[1] = (-B+(float)Math.sqrt(D))/(2*A);
             }
         }
         return res;
