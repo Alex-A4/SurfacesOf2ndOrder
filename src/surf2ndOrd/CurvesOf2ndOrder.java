@@ -248,7 +248,7 @@ public class CurvesOf2ndOrder {
         private void drawPoint(){
             glColor3f(x/10,x/20+y/20, y/10); 
             glBegin(GL_POINTS);
-            glVertex3f(x/10, y/10, 0f);
+            glVertex3f(x/5, y/5, 0f);
             glEnd();
         }
         Point(float x, float y){
