@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package surf2ndOrd;
 
 /**
@@ -18,6 +14,10 @@ public class Matrix {
         this.a3 = a3;
     }
     
+    /**
+     * Transpose matrix
+     * @return new matrix
+     */
     public Matrix transposeMatrix(){
         Vector newa1 = new Vector(a1.getX(), a2.getX(), a3.getX());
         Vector newa2 = new Vector(a1.getY(), a2.getY(), a3.getY());
@@ -26,9 +26,9 @@ public class Matrix {
     }
     
     /**
-     * (Matr) * (This)
-     * @param matr
-     * @return 
+     * (Matr) * (ThisMatr)
+     * @param matr is matrix that multiple from left side
+     * @return new matrix
      */
     public Matrix multiple(Matrix matr){
         Vector V1, V2, V3;
