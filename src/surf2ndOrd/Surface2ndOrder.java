@@ -34,7 +34,7 @@ public class Surface2ndOrder {
     //Display size
     private static final int width = 960, height = 680;
     //Range of values on axis
-    private static float range = 15f;
+    private static float range = 10f;
     //Increment of a function
     private static float incrOfFunc = 0.05f;
     
@@ -127,11 +127,12 @@ public class Surface2ndOrder {
             glRotatef(XAngle,1.0f,0.0f,0.0f);
             
             drawAxis();
+            drawNormal();
             
             for (Point p: surfPoints)
                 p.drawPoint();
             
-            glColor3f(0f, 0f, 0f);
+            glColor3f(0.5f, 0.5f, 0.5f);
             glBegin(GL_QUADS);
             for (Point p: planePoints)
                 p.callPoint();
@@ -205,7 +206,7 @@ public class Surface2ndOrder {
     
     /**
      * The solution of quadratic equation in 3D
-     * Cz^2 + z(2Ey+2Fx+2I) + (Ax^2+By^2+2Dxy+2Gx+2Hy+J) = 0
+     * Cz^2 + z(Ey+Fx+I) + (Ax^2+By^2+Dxy+Gx+Hy+J) = 0
      * @param x is abscissa
      * @param y is ordinate
      * @return solution of quadratic equation
@@ -269,7 +270,7 @@ public class Surface2ndOrder {
         if (Mouse.isInsideWindow()){
             if (Mouse.isButtonDown(0))
             {
-                YAngle -= Mouse.getDX();
+                YAngle += Mouse.getDX();
                 XAngle +=Mouse.getDY();
             }
             float dw = Mouse.getDWheel()/100;
@@ -311,6 +312,7 @@ public class Surface2ndOrder {
         private void callPoint(){
             glVertex3f(x/10, z/10, y/10);
         }
+
         Point(float x, float y, float z){
             this.x = x;
             this.y = y;
