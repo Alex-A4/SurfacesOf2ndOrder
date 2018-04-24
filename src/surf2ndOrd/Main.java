@@ -22,23 +22,20 @@ class QuadrEqualException extends Exception{
 
 public class Main {
     public static void main(String args[]){
+      /*
+        For some tests
+        try{
+            CurvesOf2ndOrder curve;
+            curve = new CurvesOf2ndOrder(4, 4, 4, 0, 0, 0, 0, 0, 0, -64);
+            curve.setPlaneCoef(2, 2, 1, 0);
+            curve.createDisplay();
+            curve.start();
+        }catch(LWJGLException ex){
+            System.out.println(ex);
+        }*/
+        
         WelcomeFrame wf = new WelcomeFrame();
         wf.setLocation(200, 200);
         wf.setVisible(true);
     }
 }
-
-
-/**
- * Examples of surface:
- * 1.(0f, 1f, -1f, 1f, 0f, 0f, 0f, 0f, 15f, 0f)
- * 2.(4f, 5f, 2f, 0f, 3f, 5f, 30f, 0f, 5f, -1f)
- * 3.(1f, 2f, -3, 0f, 0f, 0f, 2f, 8f, 18f, -54f)
- * 4.(4f, 7f, 1, 0f, 0f, 5f, 0f, 0f, 0f, -1f)
- * 5.(4f, 2f, 2f, 0f, 0f, 5f, 0f, 0f, 5f, -1f)
- * 6.(4f, -5f, 2f, 0f, 3f, 5f, 30f, 0f, 5f, -1f)
- * 7.(4f, 2f, 2f, 0f, 0f, 5f, 10f, 0f, 5f, -1f)
- * 
- * Examples of cutting plane:
- * (1, 1, -1, 0)
- */
