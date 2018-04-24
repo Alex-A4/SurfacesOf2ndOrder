@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package surf2ndOrd;
 
 import java.util.ArrayList;
@@ -32,8 +28,7 @@ public class CurvesOf2ndOrder {
     //Range of values on axis
     private static float range = 10f;
     //Increment of a function
-    private static float incrOfFunc = 0.001f;
-    
+    private static float incrOfFunc = 0.005f;
         
     /**
      * Constructor with all coefficients of surface
@@ -93,12 +88,13 @@ public class CurvesOf2ndOrder {
         glMatrixMode(GL_MODELVIEW);
     }
     
+    
     /**
      * Infinity cycle with drawing methods
      * @throws InterruptedException 
      */
-    public void start(){  
-        
+    public void start(){
+        calcNewCoefs();
         fillPointsCur();
         
         while(!Display.isCloseRequested()){
@@ -107,6 +103,7 @@ public class CurvesOf2ndOrder {
             glLoadIdentity();
             
             glTranslatef(dx, dy, dz);
+            glRotatef(90,1.0f,0.0f,0.0f);
             
             drawAxis();
             
@@ -119,23 +116,20 @@ public class CurvesOf2ndOrder {
         Display.destroy();
     }
     
+    
     /**
      * Filling Lists of points after calculating them
      */
     private void fillPointsCur(){
-        float maxX, minX;
-        maxX = -range;
-        minX = range;
+        
         for (float x = -range; x <= range; x += incrOfFunc){
                 try{
                     float y[] = solutOfQuadEquat2D(x);
-                    if (x < minX) minX = x;
-                    else if (x > maxX) maxX = x;
                     if (y.length == 2){
-                        CurvesOf2ndOrder.curvePoints.add(new Point(x,y[0]));
-                        CurvesOf2ndOrder.curvePoints.add(new Point(x, y[1]));
+                        CurvesOf2ndOrder.curvePoints.add(new Point(x,y[0], 0));
+                        CurvesOf2ndOrder.curvePoints.add(new Point(x, y[1], 0));
                     } else if (y.length == 1)
-                        CurvesOf2ndOrder.curvePoints.add(new Point(x, y[0]));
+                        CurvesOf2ndOrder.curvePoints.add(new Point(x, y[0], 0));
                 } catch(QuadrEqualException e){
                 }
             }
@@ -146,6 +140,7 @@ public class CurvesOf2ndOrder {
      * Setting coefficients of cutting plane
      * @param a coefficient for X
      * @param b coefficient for Y
+     * @param c coefficient for Z
      * @param d free coefficient
      */    
     public void setPlaneCoef(float a, float b, float c, float d){
@@ -155,29 +150,77 @@ public class CurvesOf2ndOrder {
         this.pD = d;
     }
     
-      
+    
     /**
+     * Calculating new coefficients by transition matrix
+     */
+    private void calcNewCoefs(){
+        Matrix strMatrix, invMatrix, matrixA;
+        Vector V1, V2, V3, vectorA;
+        
+        V1 = new Vector (pA,pB,pC);
+        V1.normirOfVect();
+        
+        V2 = V1.vectorsMultiple(new Vector (1, 0, 0));
+        if (V2.vectorLength() == 0)
+            V2 = V2.vectorsMultiple(new Vector(0, 1, 0));
+        V2.normirOfVect();
+        
+        V3 = V1.vectorsMultiple(V2);
+        V3.normirOfVect();
+        
+        strMatrix = new Matrix(V1, V2, V3);
+        invMatrix = strMatrix.transposeMatrix();
+        
+        /**
+         * Matrix A filling by numbers of surface
+         * A D E
+         * D B F
+         * E F C
+         */
+        V1 = new Vector(a, d, e);
+        V2 = new Vector(d, b, f);
+        V3 = new Vector(e, f, c);
+        matrixA = new Matrix(V1, V2, V3);
+        //P^T*A*P - matrix with new coefficients
+        matrixA = strMatrix.multiple(matrixA.multiple(invMatrix));
+        //Write method to multiple vector and matrix
+        vectorA = strMatrix.multipleOnVector(new Vector(g, h, i));
+        
+        //Set new coefficients
+        this.a = matrixA.a1.getX();
+        this.b = matrixA.a2.getY();
+        this.c = this.e = this.f = this.i = 0;
+        this.d = matrixA.a2.getX();
+        this.g = vectorA.getX();
+        this.h = vectorA.getY();
+    }
+      
+    
+   /**
      * Drawing coordinate axis
      */
     private void drawAxis(){
         // x - blue, y - red, z - green
         glColor3f(0f, 1f, 0f);
         glBegin(GL_LINES);
-        glVertex3f(0f, -3f,0f);
-        glVertex3f(0f, 3f, 0f); //y
+        glVertex3f(0f, 0f, -4f);
+        glVertex3f(0f, 0f, 4f); //z
         glEnd();
         
-        glColor3f(1f, 0f, 0f);
+        glColor3f(0f, 0f, 1f);
         glBegin(GL_LINES);
-        glVertex3f(-3f, 0f, 0f);
-        glVertex3f(3f, 0f, 0f); //x
+        glVertex3f(-4f, 0f, 0f);
+        glVertex3f(4f, 0f, 0f); //x
         glEnd();
     }
+    
     
     private void drawCurve(){
         for (Point p: curvePoints)
             p.drawPoint();
     }
+    
     
     /**
      * The solution of quadratic equation in 2D
@@ -185,16 +228,20 @@ public class CurvesOf2ndOrder {
      * + 2pD*pB*c)/pC^2 - (pA*x*e + pD*e + pB*x*f + pB*i)/pC) + (a*x^2 + g*x + j + 
      * + (pA^2*x^2*c + 2pD*pA*c + pD^2*c)/pC^2 - (pA*x^2*f + f*x*pD
      * + pA*x*i + pD*i)/pC) = 0
+     * 
+     * float A = b + c*pB*pB/(pC*pC) - pB*e/pC;
+        float B = d*x + h + (2*pA*pB*x*c + 2*pD*pB*c)/(pC*pC) - 
+                (pA*x*e + pD*e + pB*x*f + pB*i)/pC;
+        float C = a*x*x + g*x + j + (pA*pA*x*x*c + 2*pD*pA*x*c + pD*pD*c)/(pC*pC)
+                - (pA*x*x*f + f*x*pD + pA*x*i + pD*i)/pC;
      * @param x is abscissa
      * @return solution of quadratic equation
      */
     private float[] solutOfQuadEquat2D(float x) throws QuadrEqualException{
         float[] res;
-        float A = b + c*pB*pB/(pC*pC) - pB*e/pC;
-        float B = d*x + h + (2*pA*pB*x*c + 2*pD*pB*c)/(pC*pC) - 
-                (pA*x*e + pD*e + pB*x*f + pB*i)/pC;
-        float C = a*x*x + g*x + j + (pA*pA*x*x*c + 2*pD*pA*x*c + pD*pD*c)/(pC*pC)
-                - (pA*x*x*f + f*x*pD + pA*x*i + pD*i)/pC;
+        float A = b;
+        float B = d*x + h;
+        float C = a*x*x + g*x + j;
         
         if (A == 0 && B == 0)
             throw new QuadrEqualException("A and B is zero");
@@ -207,7 +254,7 @@ public class CurvesOf2ndOrder {
                 throw new QuadrEqualException("Discriminant less then zero");
             else if (D == 0){
                 res = new float[1];
-                res[0] = (-B-(float)Math.sqrt(D))/(2*A);
+                res[0] = (-B)/(2*A);
             } else{
                 res = new float[2];
                 res[0] = (-B-(float)Math.sqrt(D))/(2*A);
@@ -217,7 +264,7 @@ public class CurvesOf2ndOrder {
         return res;
     }
     
-     
+    
     /**
      * Processing keyboard and mouse events
      */
@@ -244,16 +291,19 @@ public class CurvesOf2ndOrder {
      * callPoint() is method to return Vertex to drawing
      */
     class Point{
-        private float x, y;
+        private float x, y, z;
+        
         private void drawPoint(){
-            glColor3f(x/10,x/20+y/20, y/10); 
+            glColor3f(x/10, z/10, y/10); 
             glBegin(GL_POINTS);
-            glVertex3f(x/5, y/5, 0f);
+            glVertex3f(x/2, z/2, y/2);
             glEnd();
         }
-        Point(float x, float y){
+        
+        Point(float x, float y, float z){
             this.x = x;
             this.y = y;
+            this.z = z;
         }
     }
     
