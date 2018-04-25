@@ -1,5 +1,5 @@
 
-package surf2ndOrd;
+    package surf2ndOrd;
 
 /**
  *
@@ -26,9 +26,9 @@ public class Matrix {
     }
     
     /**
-     * (Matr) * (ThisMatr)
-     * @param matr is matrix that multiple from left side
-     * @return new matrix
+     * (Matrix) * (ThisMatr)
+     * @param matr is matrix that multiple from LEFT side
+     * @return result of multiplication is new matrix
      */
     public Matrix multiple(Matrix matr){
         Vector V1, V2, V3;
@@ -50,5 +50,20 @@ public class Matrix {
         );
         
         return new Matrix(V1, V2, V3);
+    }
+    
+    /**
+     *             (x1, x2, x3)
+     * (x, y, z) * (y1, y2, y3)
+     *             (z1, z2, z3)
+     * @param vect is vector that multiple from RIGHT side
+     * @return result of multiplication is new vector
+     */
+    public Vector multipleOnVector(Vector vect){
+        float x, y, z;
+        x = vect.getX()*this.a1.getX() + vect.getY()*this.a1.getY() + vect.getZ()*this.a1.getZ();
+        y = vect.getX()*this.a2.getX() + vect.getY()*this.a2.getY() + vect.getZ()*this.a2.getZ();
+        z = vect.getX()*this.a3.getX() + vect.getY()*this.a3.getY() + vect.getZ()*this.a3.getZ();
+        return new Vector(x, y, z);
     }
 }
