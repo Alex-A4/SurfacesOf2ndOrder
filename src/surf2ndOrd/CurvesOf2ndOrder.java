@@ -182,9 +182,9 @@ public class CurvesOf2ndOrder {
         V2 = new Vector(d, b, f);
         V3 = new Vector(e, f, c);
         matrixA = new Matrix(V1, V2, V3);
-        //P^T*A*P - matrix with new coefficients
+        //P^T*A*P - matrix with new coefficinents
         matrixA = strMatrix.multiple(matrixA.multiple(invMatrix));
-        //Write method to multiple vector and matrix
+        //vect * strMatrix - vector with new coefficients
         vectorA = strMatrix.multipleOnVector(new Vector(g, h, i));
         
         //Set new coefficients
