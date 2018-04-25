@@ -127,7 +127,6 @@ public class Surface2ndOrder {
             glRotatef(XAngle,1.0f,0.0f,0.0f);
             
             drawAxis();
-            drawNormal();
             
             for (Point p: surfPoints)
                 p.drawPoint();
