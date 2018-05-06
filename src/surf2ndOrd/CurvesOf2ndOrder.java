@@ -184,16 +184,22 @@ public class CurvesOf2ndOrder {
         matrixA = new Matrix(V1, V2, V3);
         //P^T*A*P - matrix with new coefficinents
         matrixA = strMatrix.multiple(matrixA.multiple(invMatrix));
-        //vect * strMatrix - vector with new coefficients
+        /**
+         * vect * strMatrix - vector with new coefficients
+         * (G H I) 
+         */
         vectorA = strMatrix.multipleOnVector(new Vector(g, h, i));
         
         //Set new coefficients
         this.a = matrixA.a1.getX();
         this.b = matrixA.a2.getY();
-        this.c = this.e = this.f = this.i = 0;
+        this.c = 0; //matrixA.a3.getZ();
         this.d = matrixA.a2.getX();
+        this.e = matrixA.a1.getZ();
+        this.f = matrixA.a2.getZ();
         this.g = vectorA.getX();
         this.h = vectorA.getY();
+        this.i = vectorA.getZ();
     }
       
     
@@ -223,25 +229,28 @@ public class CurvesOf2ndOrder {
     
     
     /**
+     * Ax^2 + By^2 + Cz^2 +Dxy + Eyz + Fxz + Gx + Hy + Iz + J = 0
+     * 
      * The solution of quadratic equation in 2D
      * y^2*(b + c*pB^2/pC^2 - pB*e/pC) + y*(d*x + h + (2pA*pB*x*c + 
      * + 2pD*pB*c)/pC^2 - (pA*x*e + pD*e + pB*x*f + pB*i)/pC) + (a*x^2 + g*x + j + 
      * + (pA^2*x^2*c + 2pD*pA*c + pD^2*c)/pC^2 - (pA*x^2*f + f*x*pD
      * + pA*x*i + pD*i)/pC) = 0
      * 
-     * float A = b + c*pB*pB/(pC*pC) - pB*e/pC;
-        float B = d*x + h + (2*pA*pB*x*c + 2*pD*pB*c)/(pC*pC) - 
-                (pA*x*e + pD*e + pB*x*f + pB*i)/pC;
-        float C = a*x*x + g*x + j + (pA*pA*x*x*c + 2*pD*pA*x*c + pD*pD*c)/(pC*pC)
-                - (pA*x*x*f + f*x*pD + pA*x*i + pD*i)/pC;
+     *         float A = b;
+        float B = d*x + h;
+        float C = a*x*x + g*x + j;
      * @param x is abscissa
      * @return solution of quadratic equation
      */
     private float[] solutOfQuadEquat2D(float x) throws QuadrEqualException{
         float[] res;
-        float A = b;
-        float B = d*x + h;
-        float C = a*x*x + g*x + j;
+
+        float A = b + c*pB*pB/(pC*pC) - pB*e/pC;
+        float B = d*x + h + (2*pA*pB*x*c + 2*pD*pB*c)/(pC*pC) - 
+                (pA*x*e + pD*e + pB*x*f + pB*i)/pC;
+        float C = a*x*x + g*x + j + (pA*pA*x*x*c + 2*pD*pA*x*c + pD*pD*c)/(pC*pC)
+                - (pA*x*x*f + f*x*pD + pA*x*i + pD*i)/pC;
         
         if (A == 0 && B == 0)
             throw new QuadrEqualException("A and B is zero");
