@@ -64,7 +64,6 @@ public class CurvesOf2ndOrder {
      */
     public void createDisplay()throws LWJGLException{
         Display.setDisplayMode(new DisplayMode(this.width, this.height));
-        Display.setLocation(0, 200);
         Display.setTitle("Curve of the 2nd order ");
         Display.create();
         

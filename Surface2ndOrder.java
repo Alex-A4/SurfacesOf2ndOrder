@@ -83,9 +83,8 @@ public class Surface2ndOrder {
      * creating display with base parameters for 3D graphic
      * @throws LWJGLException if display couldn't be create
      */
-    public void createDisplay(int w, int h)throws LWJGLException{
+    public void createDisplay()throws LWJGLException{
         Display.setDisplayMode(new DisplayMode(this.width, this.height));
-        Display.setLocation(w, h);
         Display.setTitle("Surfaces of the 2nd order ");
         Display.create();
         
