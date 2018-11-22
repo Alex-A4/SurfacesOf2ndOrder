@@ -21,23 +21,24 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class Surface2ndOrder {
     //Displacement of the scene on coordinate axis
-    private static float dx = -1.5f, dy = 0, dz = -6.0f;
+    private float dx = -1.5f, dy = 0, dz = -6.0f;
     //Turns on axis
-    private static float XAngle = 0f, YAngle = 0f;
+    private float XAngle = 0f, YAngle = 0f;
     //Coefficients of sufrace equation
-    private static float a, b, c, d, e, f, g, h, i, j;
+    private float a, b, c, d, e, f, g, h, i, j;
     //Coefficients of plane equation
-    private static float pA, pB, pC, pD;
+    private float pA, pB, pC, pD;
     //Lists of points of surface and plane
-    private static ArrayList <Point> surfPoints;
-    private static ArrayList <Point> planePoints;
+    private ArrayList <Point> surfPoints;
+    private ArrayList <Point> planePoints;
     //Display size
     private static final int width = 960, height = 680;
     //Range of values on axis
-    private static float range = 10f;
+    private static final float range = 10f;
     //Increment of a function
-    private static float incrOfFunc = 0.05f;
+    private float incrOfFunc;
     
+    private static final float dividerOfIncrement = 100f;
     /**
      * Constructor with all coefficients of surface
      * @param a coefficient for x^2
@@ -83,9 +84,8 @@ public class Surface2ndOrder {
      * creating display with base parameters for 3D graphic
      * @throws LWJGLException if display couldn't be create
      */
-    public void createDisplay(int w, int h)throws LWJGLException{
+    public void createDisplay()throws LWJGLException{
         Display.setDisplayMode(new DisplayMode(this.width, this.height));
-        Display.setLocation(w, h);
         Display.setTitle("Surfaces of the 2nd order ");
         Display.create();
         
@@ -293,6 +293,19 @@ public class Surface2ndOrder {
             }
         }
             
+    }
+
+    /**
+     * Setting density of points
+     * @param density 
+     */
+    void setDensity(String density) {
+        switch (density) {
+            case "25%": incrOfFunc = 0.3f; break;
+            case "50%": incrOfFunc = 0.1f; break;
+            case "75%": incrOfFunc = 0.05f; break;
+            case "100%": incrOfFunc = 0.025f; break;
+        }
     }
     
     /**
